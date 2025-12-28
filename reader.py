@@ -41,9 +41,8 @@ if __name__ == "__main__":
 
     # qwen-teacher llama-2-pruner reason answer - gsm8k train
     if int(setting) == 3:
-        teacher_model, pruner_model, best_cand_criteria, dataset, split = "qwen-2.5-7b", "llama-2-7b", "answer", "gsm8k", "train"
+        teacher_model, pruner_model, best_cand_criteria, dataset, split = "qwen-2.5-7b", "llama-2-7b", "reason-answer", "gsm8k", "train"
         data_filepath = f"./data/category-prompt-response-{teacher_model}-{pruner_model}-{best_cand_criteria}-{dataset}-{split}.jsonl" # file name was wrong, acutlaly this is reason-answer objective.
-        best_cand_criteria = "reason-answer"
 
     # llama-3-teacher llama-3-pruner reason-answer - gsm8k train
     if int(setting) == 4:
