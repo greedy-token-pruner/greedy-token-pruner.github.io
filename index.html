@@ -326,7 +326,7 @@
             </div>
 
             <div class="control-group">
-                <label for="bestCandCriteria">Best Candidate Criteria</label>
+                <label for="bestCandCriteria">Pruning Objective</label>
                 <select id="bestCandCriteria">
                     <option value="reason-answer" selected>Joint</option>
                     <option value="answer">Answer</option>
@@ -353,7 +353,10 @@
                     <div class="slider-container">
                         <div class="slider-label">
                             <span>Pruning Step</span>
-                            <span class="slider-value" id="stepValue">0</span>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <span class="slider-value" id="stepValue">0</span>
+                                <span class="slider-value" id="prunedPercentage" style="background: #28a745;">0.00%</span>
+                            </div>
                         </div>
                         <input type="range" id="pruningStep" min="0" max="0" value="0">
                         <div class="info-text">Move the slider to see tokens being pruned. Gray tokens are deleted.</div>
@@ -543,6 +546,14 @@
 
         function updateStepValue(step) {
             document.getElementById('stepValue').textContent = step;
+            
+            // Calculate pruned percentage
+            if (currentExample && currentExample.reason_tokens_json) {
+                const totalTokens = currentExample.reason_tokens_json.length;
+                const prunedTokens = currentExample.reason_tokens_json.filter(t => t.deleted_step <= step).length;
+                const prunedPercentage = (prunedTokens / totalTokens) * 100;
+                document.getElementById('prunedPercentage').textContent = prunedPercentage.toFixed(2) + '%';
+            }
         }
 
         function renderTokens(pruningStep) {
