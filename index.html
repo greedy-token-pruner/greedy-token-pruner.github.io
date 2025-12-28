@@ -413,9 +413,13 @@
                 .filter(s => s.teacher === teacherModel)
                 .map(s => s.pruner))];
             
+            // Sort pruners to ensure consistent order: qwen-2.5-7b, llama-2-7b, llama-3-8b, none
+            const prunerOrder = ['qwen-2.5-7b', 'llama-2-7b', 'llama-3-8b', 'none'];
+            const sortedPruners = prunerOrder.filter(p => validPruners.includes(p));
+            
             // Clear and repopulate
             prunerSelect.innerHTML = '';
-            validPruners.forEach(pruner => {
+            sortedPruners.forEach(pruner => {
                 const option = document.createElement('option');
                 option.value = pruner;
                 option.textContent = pruner === 'qwen-2.5-7b' ? 'Qwen 2.5 7B' : 
@@ -430,7 +434,7 @@
             
             // If current selection is invalid, select first valid option
             if (!validPruners.includes(currentPruner)) {
-                prunerSelect.value = validPruners[0];
+                prunerSelect.value = sortedPruners[0];
             }
             
             updateCriteriaOptions();
@@ -447,9 +451,13 @@
                 .filter(s => s.teacher === teacherModel && s.pruner === prunerModel)
                 .map(s => s.criteria))];
             
+            // Sort criteria to ensure consistent order: reason-answer, answer, token-skip, surprisal
+            const criteriaOrder = ['reason-answer', 'answer', 'token-skip', 'surprisal'];
+            const sortedCriteria = criteriaOrder.filter(c => validCriteria.includes(c));
+            
             // Clear and repopulate
             criteriaSelect.innerHTML = '';
-            validCriteria.forEach(criteria => {
+            sortedCriteria.forEach(criteria => {
                 const option = document.createElement('option');
                 option.value = criteria;
                 option.textContent = criteria === 'reason-answer' ? 'Joint' : 
@@ -464,7 +472,7 @@
             
             // If current selection is invalid, select first valid option
             if (!validCriteria.includes(currentCriteria)) {
-                criteriaSelect.value = validCriteria[0];
+                criteriaSelect.value = sortedCriteria[0];
             }
         }
 
@@ -665,3 +673,4 @@
     </script>
 </body>
 </html>
+
